@@ -1,0 +1,42 @@
+services:
+
+  laravel:
+    build:
+      context: .
+      dockerfile: docker/dev/Dockerfile
+    container_name: centralized-dev-laravel
+    restart: unless-stopped
+    volumes:
+      - ./:/app
+    networks:
+      - centralized-dev-back
+    depends_on:
+      - db
+    ports:
+      - "80:8000"
+
+  db:
+    image: mysql:lts
+    env_file:
+      - .env
+    container_name: centralized-dev-mysql
+    restart: unless-stopped
+    networks:
+      - centralized-dev-back
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - centralized-dbdata:/var/lib/mysql
+      - ./docker/dev/sql:/docker-entrypoint-initdb.d:ro
+
+networks:
+  centralized-dev-back:
+    driver: bridge
+
+volumes:
+  centralized-dbdata:
