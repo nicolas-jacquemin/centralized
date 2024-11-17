@@ -29,5 +29,10 @@ class AppServiceProvider extends ServiceProvider
         Vite::prefetch(concurrency: 3);
         JsonResource::withoutWrapping();
         Passport::useClientModel(Client::class);
+        Passport::hashClientSecrets();
+        Passport::tokensCan([
+            'name' => 'Get user name',
+            'email' => 'Get user email',
+        ]);
     }
 }

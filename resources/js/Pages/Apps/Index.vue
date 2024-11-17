@@ -1,4 +1,5 @@
 <script setup>
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Table } from "@dootix-developer/inertiajs-tables-laravel-query-builder";
 import { Head, Link } from "@inertiajs/vue3";
@@ -16,15 +17,19 @@ defineProps(["apps"]);
             >
                 Apps
             </h2>
+            <div class="flex flex-1"></div>
+            <Link :href="route('apps.create')">
+                <PrimaryButton :href="route('apps.create')"
+                    >Create App</PrimaryButton
+                >
+            </Link>
         </template>
 
         <div class="py-12">
             <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <Table :resource="apps">
                     <template #cell(actions)="{ item: app }">
-                        <Link :href="route('apps.edit', app.id)">
-                          Edit
-                        </Link>
+                        <Link :href="route('apps.edit', app.id)"> Edit </Link>
                     </template>
                 </Table>
             </div>

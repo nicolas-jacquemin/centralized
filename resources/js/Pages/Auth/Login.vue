@@ -44,9 +44,9 @@ const submit = () => {
     <GuestLayout>
         <Head title="Log in" />
 
-        <div v-if="loading" class="flex flex-col items-center gap-5">
-            <Spinner class="text-white" />
-            <h3 class="text-white">Loading...</h3>
+        <div v-if="loading" class="flex flex-col items-center gap-2 py-5">
+            <Spinner />
+            <h3 class="dark:text-white">Loading...</h3>
         </div>
 
         <div v-else>

@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import UpdateGeneralInformationForm from "./Partials/UpdateGeneralInformationForm.vue";
 import { Head } from "@inertiajs/vue3";
 
-defineProps(["client", "status"]);
+defineProps(["client", "status", "secret"]);
 </script>
 
 <template>
@@ -26,6 +26,7 @@ defineProps(["client", "status"]);
                     <UpdateGeneralInformationForm
                         :client="client"
                         :status="status"
+                        :secret="secret"
                         class="max-w-xl"
                     />
                 </div>

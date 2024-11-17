@@ -34,6 +34,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user() ? new UserResource($request->user()->load('active_client_sessions')) : null,
+                'csrf_token' => csrf_token(),
             ],
         ];
     }

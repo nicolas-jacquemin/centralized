@@ -62,8 +62,7 @@ class AuthorizationController
      */
     public function authorize(ServerRequestInterface $psrRequest,
                               Request $request,
-                              ClientRepository $clients,
-                              TokenRepository $tokens)
+                              ClientRepository $clients)
     {
         $authRequest = $this->withErrorHandling(function () use ($psrRequest) {
             return $this->server->validateAuthorizationRequest($psrRequest);
@@ -75,8 +74,7 @@ class AuthorizationController
                     : $this->promptForLogin($request);
         }
 
-        if ($request->get('prompt') === 'login' &&
-            ! $request->session()->get('promptedForLogin', false)) {
+        if ($request->get('prompt') === 'login') {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
@@ -84,16 +82,9 @@ class AuthorizationController
             return $this->promptForLogin($request);
         }
 
-        $request->session()->forget('promptedForLogin');
-
         $scopes = $this->parseScopes($authRequest);
         $user = Auth::user();
         $client = $clients->find($authRequest->getClient()->getIdentifier());
-
-        if ($request->get('prompt') !== 'consent' &&
-            ($client->skipsAuthorization() || $this->hasValidToken($tokens, $user, $client, $scopes))) {
-            return $this->approveRequest($authRequest, $user);
-        }
 
         if ($request->get('prompt') === 'none') {
             return $this->denyRequest($authRequest, $user);
@@ -102,11 +93,12 @@ class AuthorizationController
         $request->session()->put('authToken', $authToken = Str::random());
         $request->session()->put('authRequest', $authRequest);
 
-        return $this->response->withParameters([
+        return Inertia::render('OAuth/Authorize', [
             'client' => $client,
             'user' => $user,
             'scopes' => $scopes,
             'request' => $request,
+            'state' => $request->state,
             'authToken' => $authToken,
         ]);
     }

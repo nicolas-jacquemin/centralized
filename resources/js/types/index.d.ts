@@ -5,5 +5,6 @@ export type PageProps<
 > = T & {
     auth: {
         user: UserModel;
+        csrf_token: string;
     };
 };

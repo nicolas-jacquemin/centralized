@@ -4,12 +4,12 @@ namespace App\Http\Requests\Apps;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAppRequest extends FormRequest
+class StoreAppRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'name' => ['sometimes', 'string'],
+            'name' => ['required', 'string', 'max:255'],
             'redirect_urls' => ['required', 'array', 'min:1'],
             'redirect_urls.*' => ['url'],
         ];

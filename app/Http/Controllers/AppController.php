@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Apps\StoreAppRequest;
 use App\Http\Requests\Apps\UpdateAppRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
@@ -11,6 +12,7 @@ use Inertia\Inertia;
 use ProtoneMedia\LaravelQueryBuilderInertiaJs\InertiaTable;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Str;
 
 class AppController extends Controller
 {
@@ -46,13 +48,43 @@ class AppController extends Controller
     public function edit(Client $client)
     {
         return Inertia::render('Apps/Edit', [
-            "client" => $client
+            "client" => new ClientResource($client),
         ]);
     }
 
     public function update(Client $client, UpdateAppRequest $request) {
-        $client->update($request->validated());
+        $client->update([
+            'name' => $request->name,
+            'redirect' => join(',', $request->validated('redirect_urls')),
+        ]);
 
         return Redirect::route('apps.edit', $client->id);
+    }
+
+    public function create() {
+        return Inertia::render('Apps/Create');
+    }
+
+    public function store(StoreAppRequest $request) {
+        $secret = Str::random(64);
+        $client = Client::create([
+            'name' => $request->validated('name'),
+            'redirect' => join(',', $request->validated('redirect_urls')),
+            'personal_access_client' => false,
+            'password_client' => false,
+            'revoked' => false,
+            'secret' => $secret,
+        ]);
+
+        return Inertia::render('Apps/InitHelp', [
+            "client" => new ClientResource($client),
+            'secret' => $secret,
+        ]);
+    }
+
+    public function destroy(Client $client) {
+        $client->delete();
+
+        return Redirect::route('apps.index');
     }
 }
