@@ -94,9 +94,7 @@ class UserController extends Controller
 
         $user = User::create($data);
 
-        return Inertia::render('Users/Edit', [
-            "user" => new UserResource($user),
-        ]);
+        return $this->edit($user);
     }
 
     public function destroy(User $user) {

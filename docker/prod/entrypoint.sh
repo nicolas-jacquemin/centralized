@@ -36,6 +36,8 @@ if [ -z "$APP_KEY" ]; then
     php artisan key:generate --force
 fi
 
+php artisan passport:key
+
 echo "Starting queue worker..."
 service supervisor start
 supervisorctl start "worker:*"
