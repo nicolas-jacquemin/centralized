@@ -5,9 +5,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     supervisor \
     cron \
-    telnet \
-    nodejs \
-    npm
+    telnet
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -29,10 +27,16 @@ COPY ./docker/prod/schedule_entrypoint.sh /usr/local/bin/schedule_entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/schedule_entrypoint.sh
 
+RUN curl -sL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
+RUN bash nodesource_setup.sh
+
+RUN apt-get install -y nodejs
+
 COPY . /app
 
 RUN composer install
 
+RUN npm install
 RUN npm run build
 
 ENTRYPOINT ["entrypoint.sh"]
