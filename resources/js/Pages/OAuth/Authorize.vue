@@ -28,8 +28,8 @@ const loading = ref<boolean>(false);
         <Head :title="client.name" />
 
         <div v-if="loading" class="flex flex-col items-center gap-5">
-            <Spinner class="text-white" />
-            <h3 class="text-white">Loading...</h3>
+            <Spinner class="dark:text-white" />
+            <h3 class="dark:text-white">Loading...</h3>
         </div>
 
         <div v-else>
@@ -38,8 +38,9 @@ const loading = ref<boolean>(false);
             </div>
 
             <div>
-                <div>
-                    <h1 class="dark:text-white text-center">{{ client.name }}</h1>
+                <div class="flex flex-col items-center gap-4">
+                    <img v-if="client.picture" :src="client.picture" :alt="`${client.name} picture`" class="h-20 w-20" />
+                    <h1 class="dark:text-white text-center font-bold">{{ client.name }}</h1>
                 </div>
 
                 <div class="py-12">

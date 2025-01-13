@@ -31,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
         Passport::useClientModel(Client::class);
         Passport::hashClientSecrets();
         Passport::tokensCan([
+            'openid' => 'Get user information',
+            'profile' => 'Get user profile',
             'name' => 'Get user name',
             'email' => 'Get user email',
         ]);

@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { computed, ref } from "vue";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import Dropdown from "@/Components/Dropdown.vue";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import NavLink from "@/Components/NavLink.vue";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
+import { Link, usePage } from "@inertiajs/vue3";
+
+const page = usePage();
+
+const isAdmin = computed(() => {
+    return page.props.auth.user.role === "admin";
+});
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -40,10 +46,18 @@ const showingNavigationDropdown = ref(false);
                                     Dashboard
                                 </NavLink>
                                 <NavLink
+                                    v-if="isAdmin"
                                     :href="route('apps.index')"
                                     :active="route().current('apps.index')"
                                 >
                                     Apps
+                                </NavLink>
+                                <NavLink
+                                    v-if="isAdmin"
+                                    :href="route('users.index')"
+                                    :active="route().current('users.index')"
+                                >
+                                    Users
                                 </NavLink>
                             </div>
                         </div>
@@ -190,15 +204,17 @@ const showingNavigationDropdown = ref(false);
                 class="bg-white shadow dark:bg-gray-800"
                 v-if="$slots.header"
             >
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex gap-4 items-center">
+                <div
+                    class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex gap-4 items-center"
+                >
                     <slot name="header" />
                 </div>
             </header>
 
             <!-- Page Content -->
-            <main>
+            <div>
                 <slot />
-            </main>
+            </div>
         </div>
     </div>
 </template>

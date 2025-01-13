@@ -4,9 +4,8 @@ import IconButton from "@/Components/IconButton.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import { Link, useForm } from "@inertiajs/vue3";
+import { useForm } from "@inertiajs/vue3";
 
 const props = defineProps<{
     client: any;
@@ -17,6 +16,7 @@ const props = defineProps<{
 
 const form = useForm({
     name: props.client.name,
+    picture: props.client.picture,
     redirect_urls: props.client.redirect_urls,
 });
 
@@ -54,6 +54,18 @@ const deleteApp = () => {
             </div>
 
             <div>
+                <InputLabel for="id" value="Client Secret" />
+
+                <TextInput
+                    id="id"
+                    type="text"
+                    class="mt-1 block w-full"
+                    :model-value="'**********'"
+                    disabled
+                />
+            </div>
+
+            <div>
                 <InputLabel for="name" value="Name" />
 
                 <TextInput
@@ -67,6 +79,19 @@ const deleteApp = () => {
                 />
 
                 <InputError class="mt-2" :message="form.errors.name" />
+            </div>
+
+            <div>
+                <InputLabel for="picture" value="Picture URL" />
+
+                <TextInput
+                    id="picture"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.picture"
+                />
+
+                <InputError class="mt-2" :message="form.errors.picture" />
             </div>
 
             <div>

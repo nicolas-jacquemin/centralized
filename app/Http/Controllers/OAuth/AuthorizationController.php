@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\OAuth;
 
+use App\Models\User as ModelsUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -83,11 +84,16 @@ class AuthorizationController
         }
 
         $scopes = $this->parseScopes($authRequest);
+        /** @var ModelsUser $user */
         $user = Auth::user();
         $client = $clients->find($authRequest->getClient()->getIdentifier());
 
         if ($request->get('prompt') === 'none') {
             return $this->denyRequest($authRequest, $user);
+        }
+
+        if ($user->clients()->where('oauth_clients.id', $client->id)->doesntExist() && $user->role !== 'admin') {
+            return Inertia::render("OAuth/Unauthorized");
         }
 
         $request->session()->put('authToken', $authToken = Str::random());

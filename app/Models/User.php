@@ -25,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -60,5 +61,10 @@ class User extends Authenticatable
     {
         return $this->hasManyThrough(Client::class, Passport::tokenModel(), 'user_id', 'id', 'id', 'client_id')
             ->distinct();
+    }
+
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class);
     }
 }

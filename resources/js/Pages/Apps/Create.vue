@@ -5,16 +5,31 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head, useForm } from "@inertiajs/vue3";
+import { Head, useForm, usePage } from "@inertiajs/vue3";
+import { computed, onMounted } from "vue";
+
+const query = computed(() => {
+    return new URLSearchParams(window.location.search)
+})
 
 const form = useForm({
     name: "",
+    picture: "",
     redirect_urls: [""],
 });
 
 const submit = () => {
     form.post(route("apps.store"));
 };
+
+onMounted(() => {
+    if (query.value.has("name"))
+        form.name = query.value.get("name") as string
+    if (query.value.has("picture"))
+        form.picture = query.value.get("picture") as string
+    if (query.value.has("redirect_urls"))
+        form.redirect_urls = (query.value.get("redirect_urls") as string).split(",")
+})
 </script>
 
 <template>
@@ -70,6 +85,22 @@ const submit = () => {
                             </div>
 
                             <div>
+                                <InputLabel for="picture" value="Picture URL" />
+
+                                <TextInput
+                                    id="picture"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    v-model="form.picture"
+                                />
+
+                                <InputError
+                                    class="mt-2"
+                                    :message="form.errors.picture"
+                                />
+                            </div>
+
+                            <div>
                                 <InputLabel value="Redirect URLs" />
 
                                 <div
@@ -78,7 +109,7 @@ const submit = () => {
                                     ) in form.redirect_urls"
                                     :key="index"
                                 >
-                                    <div class="flex items-center gap-4">
+                                    <div class="flex items-center gap-4 mt-1">
                                         <IconButton
                                             v-if="
                                                 index ===
@@ -103,7 +134,7 @@ const submit = () => {
                                         />
                                         <TextInput
                                             type="text"
-                                            class="mt-1 block w-full"
+                                            class="block w-full"
                                             v-model="form.redirect_urls[index]"
                                         />
                                     </div>
@@ -115,9 +146,9 @@ const submit = () => {
                             </div>
 
                             <div class="flex items-center gap-4">
-                                <PrimaryButton :disabled="form.processing"
-                                    >Create</PrimaryButton
-                                >
+                                <PrimaryButton :disabled="form.processing">
+                                    Create
+                                </PrimaryButton>
                             </div>
                         </form>
                     </section>

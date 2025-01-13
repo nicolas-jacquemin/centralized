@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import InputLabel from "@/Components/InputLabel.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextLink from "@/Components/TextLink.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
@@ -48,6 +47,70 @@ defineProps<{
                                     type="text"
                                     class="mt-1 block w-full"
                                     :model-value="client.id"
+                                />
+                            </div>
+
+                            <div>
+                                <div class="flex items-center gap-4">
+                                    <InputLabel
+                                        for="authorize"
+                                        value="Authorization URL"
+                                    />
+                                </div>
+
+                                <TextLink
+                                    id="authorize"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    :model-value="route('passport.authorizations.authorize')"
+                                />
+                            </div>
+
+                            <div>
+                                <div class="flex items-center gap-4">
+                                    <InputLabel
+                                        for="token"
+                                        value="Access token URL"
+                                    />
+                                </div>
+
+                                <TextLink
+                                    id="token"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    :model-value="route('passport.token')"
+                                />
+                            </div>
+
+                            <div>
+                                <div class="flex items-center gap-4">
+                                    <InputLabel
+                                        for="resource"
+                                        value="Resource URL"
+                                    />
+                                </div>
+
+                                <TextLink
+                                    id="resource"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    :model-value="route('user.get')"
+                                />
+                            </div>
+
+                            <div>
+                                <div class="flex items-center gap-4">
+                                    <InputLabel
+                                        for="logout"
+                                        value="Logout URL"
+                                    />
+                                </div>
+
+                                <TextLink
+                                    id="logout"
+                                    type="text"
+                                    class="mt-1 block w-full"
+                                    :model-value="route('oauth.logout')"
                                 />
                             </div>
 

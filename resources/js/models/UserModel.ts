@@ -5,4 +5,6 @@ export interface UserModel extends IdAndTimestamp {
   name: string;
   email: string;
   active_client_sessions: ClientModel[];
+  clients: ClientModel[];
+  role: string;
 }

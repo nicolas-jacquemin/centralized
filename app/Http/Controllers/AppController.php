@@ -55,6 +55,7 @@ class AppController extends Controller
     public function update(Client $client, UpdateAppRequest $request) {
         $client->update([
             'name' => $request->name,
+            'picture' => $request->picture,
             'redirect' => join(',', $request->validated('redirect_urls')),
         ]);
 
@@ -69,6 +70,7 @@ class AppController extends Controller
         $secret = Str::random(64);
         $client = Client::create([
             'name' => $request->validated('name'),
+            'picture' => $request->picture,
             'redirect' => join(',', $request->validated('redirect_urls')),
             'personal_access_client' => false,
             'password_client' => false,
