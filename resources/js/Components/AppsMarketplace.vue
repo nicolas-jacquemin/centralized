@@ -3,17 +3,17 @@ import { ref } from "vue";
 
 const apps = ref([
     {
-        picture: "https://dev.pve-fsn1.nicojqn.fr/picture/cloudflare.png",
+        picture: "https://centralized.pve-fsn1.nicojqn.fr/picture/cloudflare.png",
         name: "Cloudflare Zero Trust",
         redirect_urls: "https://<your-team-name>.cloudflareaccess.com/cdn-cgi/access/callback",
       },
       {
-          picture: "https://dev.pve-fsn1.nicojqn.fr/picture/outline.png",
+          picture: "https://centralized.pve-fsn1.nicojqn.fr/picture/outline.png",
           name: "Outline",
           redirect_urls: "https://<outline-url>/auth/oidc.callback",
       },
     {
-        picture: "https://dev.pve-fsn1.nicojqn.fr/picture/portainer.svg",
+        picture: "https://centralized.pve-fsn1.nicojqn.fr/picture/portainer.svg",
         name: "Portainer",
         redirect_urls: "https://<portainer-url>/",
     },
