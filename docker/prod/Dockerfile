@@ -31,4 +31,6 @@ COPY . /app
 
 RUN composer install
 
+RUN npm run build
+
 ENTRYPOINT ["entrypoint.sh"]
