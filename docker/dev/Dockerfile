@@ -13,6 +13,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN install-php-extensions \
     pcntl \
     pdo_mysql \
+    pdo_pgsql \
     zip \
     xdebug
 
